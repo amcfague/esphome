@@ -1,13 +1,12 @@
 import esphome.codegen as cg
+from esphome.components import esp32_ble
+from esphome.components.esp32 import add_idf_sdkconfig_option
 import esphome.config_validation as cv
 from esphome.const import CONF_ID, CONF_MODEL
-from esphome.components import esp32_ble
 from esphome.core import CORE
-from esphome.components.esp32 import add_idf_sdkconfig_option
 
 AUTO_LOAD = ["esp32_ble"]
-CODEOWNERS = ["@jesserockz", "@clydebarrow"]
-CONFLICTS_WITH = ["esp32_ble_beacon"]
+CODEOWNERS = ["@jesserockz", "@clydebarrow", "@Rapsssito"]
 DEPENDENCIES = ["esp32"]
 
 CONF_MANUFACTURER = "manufacturer"
@@ -41,6 +40,7 @@ async def to_code(config):
 
     parent = await cg.get_variable(config[esp32_ble.CONF_BLE_ID])
     cg.add(parent.register_gatts_event_handler(var))
+    cg.add(parent.register_ble_status_event_handler(var))
     cg.add(var.set_parent(parent))
 
     cg.add(var.set_manufacturer(config[CONF_MANUFACTURER]))
