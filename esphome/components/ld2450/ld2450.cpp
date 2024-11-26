@@ -43,9 +43,9 @@ void LD2450Component::setup() { ESP_LOGCONFIG(TAG, "LD2450 setup complete."); }
 
 void LD2450Component::parseAndPublishRecord_(const uint8_t *buffer) {
   uint32_t current_millis = millis();
-  if (current_millis - last_periodic_millis_ < throttle_)
+  if (current_millis > next_periodic_millis_)
     return;
-  last_periodic_millis_ = current_millis;
+  next_periodic_millis_ = current_millis + throttle_;
 
   // Extract the targets.
   uint8_t active_targets = 0;

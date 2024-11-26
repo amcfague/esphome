@@ -42,10 +42,10 @@ class LD2450Component : public ::esphome::Component, public ::esphome::uart::UAR
   void set_throttle(uint16_t throttle) { throttle_ = throttle; };
 
  protected:
-  void parseAndPublishRecord_(const uint8_t *buffer);
+  inline void parseAndPublishRecord_(const uint8_t *buffer);
 
   // Specifies the last time fresh values were published.
-  uint32_t last_periodic_millis_ = millis();
+  uint32_t next_periodic_millis_ = millis();
 
   // Specifies the number of milliseconds to wait in between publishing values
   // to the sensors.
